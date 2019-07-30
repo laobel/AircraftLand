@@ -1,0 +1,1013 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>飞行器3d监视</title>
+    <script src="https://cesiumjs.org/Cesium/Build/CesiumUnminified/Cesium.js"></script>
+    <script src="./calculate.js"></script>
+    <script src="./test.js"></script>
+    <!-- <script src="http://localhost:8080/Build/CesiumUnminified/Cesium.js"></script>-->
+    <style>
+        @import url(https://cesiumjs.org/Cesium/Build/CesiumUnminified/Widgets/widgets.css);
+        /*@import url(http://localhost:8080/Build/CesiumUnminified/Widgets/widgets.css);*/
+
+        html, body, #cesiumContainer {
+            padding: 0;
+            margin: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
+
+        .cesium-viewer-bottom {
+            display: none;
+        }
+
+        .rule-container {
+            position: absolute;
+            background-color: rgba(0, 0, 0, 0.7);
+            color: white;
+        }
+
+        .rule-container.bottom {
+            width: 600px;
+            height: 70px;
+            bottom: 10px;
+            left: 50%;
+            transform: translate(-50%, 0); /*自己的50% */
+        }
+        .rule-container.left {
+            width: 95px;
+            height: 640px;
+            left: 10px;
+            top: 50%;
+            transform: translate(0, -50%); /*自己的50% */
+        }
+
+        .rule-container .rule-panel {
+            background-color: rgba(100, 100, 100, 0.7);
+        }
+
+        .rule-container.bottom .rule-panel {
+            position: absolute;
+            width: 578px;
+            height: 40px;
+            left: 50%;
+            bottom: 5px;
+            transform: translate(-50%, 0); /*自己的50% */
+            border: 1px solid white;
+            border-bottom: transparent;
+        }
+        .rule-container.left .rule-panel {
+            position: absolute;
+            width: 65px;
+            height: 620px;
+            top: 50%;
+            left: 5px;
+            transform: translate(0, -50%); /*自己的50% */
+            border: 1px solid white;
+            border-left: transparent;
+        }
+        .rule-container.left .rule-panel1 {
+            position: absolute;
+            width: 20px;
+            height: 620px;
+            top: 50%;
+            left: 65px;
+            transform: translate(0, -50%);
+            border: 1px solid white;
+            border-left: transparent;
+            border-right: transparent;
+        }
+
+        ul, li {
+            padding: 0;
+            margin: 0;
+            list-style: none;
+        }
+
+        .rule-container.bottom .rule-panel ul {
+            display: flex;
+        }
+
+        .rule-container.bottom .rule-panel li {
+            width: 30px;
+            border-right: 1px solid white;
+        }
+
+        .rule-container.bottom .rule-panel li:last-child {
+            border-right: 1px solid transparent;
+        }
+
+        /*.rule-container.bottom .rule-panel li:nth-child(odd) {
+            height: 10px;
+        }
+
+        .rule-container.bottom .rule-panel li:nth-child(even) {
+            height: 20px;
+            line-height: 60px;
+        }*/
+
+        .rule-container.bottom .rule-panel li.short {
+            height: 10px;
+        }
+
+        .rule-container.bottom .rule-panel li.long {
+            height: 20px;
+            line-height: 60px;
+        }
+
+        .rule-container.bottom .rule-panel li a {
+            position: absolute;
+            margin-left: 15px;
+        }
+
+        /*.rule-container.bottom .rule-panel li:nth-child(odd) a {
+            display: none;
+        }*/
+
+        .rule-container.bottom .rule-panel li:last-child a {
+            display: none;
+        }
+
+        .rule-container.left .rule-panel li {
+            height: 30px;
+            border-bottom: 1px solid white;
+        }
+
+        .rule-container.left .rule-panel li:last-child {
+            border-bottom: 1px solid transparent;
+        }
+
+        .rule-container.left .rule-panel li.short {
+            width: 10px;
+            margin-left: 55px;
+        }
+
+        .rule-container.left .rule-panel li.long {
+            width: 20px;
+            margin-left: 45px;
+        }
+
+        .rule-container.left .rule-panel li a {
+            position: absolute;
+            left: 5px;
+            margin-top: -12px;
+        }
+
+        /*.rule-container.left .rule-panel li:nth-child(even) a {
+            display: none;
+        }*/
+
+        .rule-container.left .rule-panel li:last-child a {
+            display: none;
+        }
+        .rule-container.left .rule-panel li:first-child a {
+            display: none;
+        }
+
+        .slider {
+            position: absolute;
+            background-image: url(./slider.png);
+            background-size: 100% 100%;
+            background-repeat: no-repeat;
+            cursor: pointer;
+        }
+
+        .line{
+            position: absolute;
+            background-color: yellow;
+        }
+        .line.horizontal{
+            left: 5px;
+            height: 2px;
+            width: 70px;
+        }
+        .line.vertical{
+            bottom: 5px;
+            width: 2px;
+            height: 55px;
+        }
+
+        .rule-label {
+            position: absolute;
+            color: yellow;
+        }
+
+        .rule-container.bottom .rule-panel .slider {
+            bottom: 30px;
+            left: 10%;
+            width: 20px;
+            height: 30px;
+        }
+        .rule-container.left .rule-panel .slider {
+            transform: rotate(90deg);
+            bottom: 30px;
+            left: 60px;
+            width: 20px;
+            height: 30px;
+        }
+        .rule-container.bottom .rule-panel .rule-label {
+            bottom: 40px;
+            left: 10%;
+        }
+    </style>
+</head>
+<body>
+<div id="cesiumContainer"></div>
+<div style="position: absolute;right: 10px;top: 80px;padding: 20px;background-color: rgba(0,0,0,0.5);color: white;">
+    <button id="start1">飞机1</button>
+    <br>
+    <button id="start2">飞机2</button>
+    <br>
+    <label>锁定飞机：</label><input id="focus" type="checkbox"><br>
+    <label>显示卫星：</label><input id="showSatellite" type="checkbox" checked="checked"><br>
+    <label>显示基站：</label><input id="showStation" type="checkbox" checked="checked"><br>
+    <label>显示站台：</label><input id="showPlatform" type="checkbox" checked="checked"><br>
+    <label>显示划面：</label><input id="showPolygon" type="checkbox" checked="checked"><br>
+    <label>显示轨迹：</label><input id="showPath" type="checkbox" checked="checked"><br>
+    <label>显示连线：</label><input id="showLine" type="checkbox" checked="checked"><br>
+</div>
+<div id="heading-rule" class="rule-container bottom" data-bind="visible:show">
+    <div class="rule-panel">
+        <ul data-bind="foreach:{data:valueObjs,as:'valueObj'}">
+            <li data-bind="style:{width:eleWidth+'px'},css:{short:!showValue,long:showValue}">
+                <a data-bind="html:value,visible:showValue"></a>
+            </li>
+        </ul>
+        <span class="slider" data-bind="style:{left:sliderPos+'px'}"></span>
+        <div class="line vertical" data-bind="style:{left:linePos+'px'}"></div>
+        <span class="rule-label" data-bind="text:currentValue, style:{left:labelPos+'px'}"></span>
+    </div>
+</div>
+<div id="height-rule" class="rule-container left" data-bind="visible:show">
+    <div class="rule-panel">
+        <ul data-bind="foreach:{data:valueObjs,as:'valueObj'}">
+            <li data-bind="style:{height:eleHeight+'px'},css:{short:showValue,long:!showValue}">
+                <a data-bind="html:value,visible:showValue"></a>
+            </li>
+        </ul>
+        <span class="slider" data-bind="style:{bottom:sliderPos+'px'}"></span>
+        <div class="line horizontal" data-bind="style:{bottom:linePos+'px'}"></div>
+        <div class="rule-panel1">
+
+        </div>
+    </div>
+</div>
+</body>
+<script>
+    //定义一个视图对象
+    var viewer = new Cesium.Viewer('cesiumContainer', {
+        animation: false,
+        baseLayerPicker: false,
+        fullscreenButton: false,
+        vrButton: false,
+        geocoder: false,
+        homeButton: false,
+        infoBox: false,
+        sceneModePicker: false,
+        selectionIndicator: false,
+        timeline: false,
+        navigationHelpButton: false,
+        navigationInstructionsInitiallyVisible: false,
+        orderIndependentTranslucency: false,
+        contextOptions: {
+            webgl: {
+                alpha: true,
+            }
+        },
+        shouldAnimate: true,
+        //sceneMode:Cesium.SceneMode.SCENE2D
+    });
+
+    //viewer.imageryLayers.removeAll();
+
+    viewer.scene.globe.depthTestAgainstTerrain = true;
+
+    //缩放到矩形范围
+    viewer.camera.setView({
+        destination: Cesium.Rectangle.fromDegrees(116.5, 38.5, 118.0, 40.0),
+        orientation: {
+            heading: Cesium.Math.toRadians(90.0), // east, default value is 0.0 (north)
+            pitch: Cesium.Math.toRadians(-90),    // default value (looking down)
+            roll: 0.0                             // default value
+        }
+    });
+
+    var handler = new Cesium.ScreenSpaceEventHandler(viewer.scene.canvas);
+    //鼠标单击事件
+    handler.setInputAction(function (movement) {
+        var ray = viewer.scene.camera.getPickRay(movement.position);
+        var position = viewer.scene.globe.pick(ray, viewer.scene);
+        var cartographic = viewer.scene.globe.ellipsoid.cartesianToCartographic(position);
+        var x = Cesium.Math.toDegrees(cartographic.longitude);
+        var y = Cesium.Math.toDegrees(cartographic.latitude);
+        console.log(x + ',' + y)
+    }, Cesium.ScreenSpaceEventType.LEFT_CLICK);
+
+    var dataSource = new Cesium.CustomDataSource('airbornes');
+    viewer.dataSources.add(dataSource);
+
+    var entities = dataSource.entities;
+
+    //卫星圆锥体
+    var satellite = entities.add({
+        name: 'Satellite',
+        position: Cesium.Cartesian3.fromDegrees(117.3566187664488, 39.11352146846848, 200000.0),
+        cylinder: {
+            length: 400000.0,
+            topRadius: 0.0,
+            bottomRadius: 100000.0,
+            material: Cesium.Color.RED.withAlpha(0.2)
+        },
+        show:false
+    });
+    //卫星图标
+    var satellite_icon = entities.add({
+        name: 'Satellite',
+        position: Cesium.Cartesian3.fromDegrees(117.3566187664488, 39.11352146846848, 400000.0),
+
+        billboard: {
+            image: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAEISURBVEhLvVXBDYQwDOuojHKj8LhBbpTbpBCEkZsmIVTXq1RVQGrHiWlLmTTqPiZBlyLgy/KSZQ5JSHDQ/mCYCsC8106kDU0AdwRnvYZArWRcAl0dcYJq1hWCb3hBrumbDAVMwAC82WoRvgMnVMDBnB0nYZFTbE6BBvdUGqVqCbjBIk3PyFFR/NU7EKzru+qZsau3ryPwwCRLKYOzutZuCL6fUmWeJGzNzL/RxAMrUmASSCkkAayk2IxPlwhAAYGpsiHQjbLccfdOY5gKkCXAMi7SscAwbQpAnKyctWyUZ6z8ja3OGMepwD8asz+9FnSvbhU8uVOHFIwQsI3/p0CfhuqCSQuxLqsN6mu8SS+N42MAAAAASUVORK5CYII=",
+            scale: 0.8333333333333334
+        }
+    });
+    //控制是否显示卫星
+    document.getElementById('showSatellite').onclick = function (ev) {
+        satellite.show = ev.target.checked;
+        satellite_icon.show = ev.target.checked;
+    };
+
+
+    //基站
+    var station = viewer.entities.add({
+        name: '',
+        position: Cesium.Cartesian3.fromDegrees(117.3566187664488, 39.11352146846848, 0.0),
+        ellipsoid: {
+            radii: new Cesium.Cartesian3(80000.0, 80000.0, 80000.0),
+            material: Cesium.Color.YELLOW.withAlpha(0.3),
+            outline: true,
+            outlineColor: Cesium.Color.WHITE,
+            slicePartitions: 24,
+            stackPartitions: 36
+        }
+    });
+
+    //控制是否显示基站
+    document.getElementById('showStation').onclick = function (ev) {
+        station.show = ev.target.checked;
+    };
+
+    //站台
+    /* var p=Cesium.Cartesian3.fromDegrees(117.3566187664488,39.11352146846848, 50.0);
+     var transform = Cesium.Transforms.eastNorthUpToFixedFrame(p);
+     var m1=Cesium.Matrix4.multiplyByTranslation(transform, new Cesium.Cartesian3(-50, -50, 0), new Cesium.Matrix4());
+     var p1 = Cesium.Matrix4.getTranslation(m1,new Cesium.Cartesian3());
+
+     var cartographic = viewer.scene.globe.ellipsoid.cartesianToCartographic(p1);
+     var x = Cesium.Math.toDegrees(cartographic.longitude);
+     var y = Cesium.Math.toDegrees(cartographic.latitude);
+     console.log(x+','+y);
+
+     var m2=Cesium.Matrix4.multiplyByTranslation(transform, new Cesium.Cartesian3(50, -50, 0), new Cesium.Matrix4());
+     var p2 = Cesium.Matrix4.getTranslation(m2,new Cesium.Cartesian3());
+
+     var cartographic = viewer.scene.globe.ellipsoid.cartesianToCartographic(p2);
+     var x = Cesium.Math.toDegrees(cartographic.longitude);
+     var y = Cesium.Math.toDegrees(cartographic.latitude);
+     console.log(x+','+y);
+
+     var m3=Cesium.Matrix4.multiplyByTranslation(transform, new Cesium.Cartesian3(50, 50, 0), new Cesium.Matrix4());
+     var p3 = Cesium.Matrix4.getTranslation(m3,new Cesium.Cartesian3());
+
+     var cartographic = viewer.scene.globe.ellipsoid.cartesianToCartographic(p3);
+     var x = Cesium.Math.toDegrees(cartographic.longitude);
+     var y = Cesium.Math.toDegrees(cartographic.latitude);
+     console.log(x+','+y);
+
+     var m4=Cesium.Matrix4.multiplyByTranslation(transform, new Cesium.Cartesian3(-50, 50, 0), new Cesium.Matrix4());
+     var p4 = Cesium.Matrix4.getTranslation(m4,new Cesium.Cartesian3());
+
+     var cartographic = viewer.scene.globe.ellipsoid.cartesianToCartographic(p4);
+     var x = Cesium.Math.toDegrees(cartographic.longitude);
+     var y = Cesium.Math.toDegrees(cartographic.latitude);
+     console.log(x+','+y);*/
+
+    var platform = viewer.entities.add({
+        name: '',
+        position: Cesium.Cartesian3.fromDegrees(117.3566187664488, 39.11352146846848, 150.0),
+        ellipsoid: {
+            radii: new Cesium.Cartesian3(50.0, 50.0, 50.0),
+            material: Cesium.Color.RED,
+            outline: false
+        },
+        polyline: {
+            positions: [
+                Cesium.Cartesian3.fromDegrees(117.35842015846576, 39.11292352373202, 0.0),
+                Cesium.Cartesian3.fromDegrees(117.35842015846576, 39.11292352373202, 300.0)
+            ],
+            width: 10,
+            material: Cesium.Color.WHITE
+        },
+        polygon: {
+            hierarchy: [
+                Cesium.Cartesian3.fromDegrees(117.35604065849842, 39.11307109171455, 0.0),
+                Cesium.Cartesian3.fromDegrees(117.3571968743992, 39.11307109171455, 0.0),
+                Cesium.Cartesian3.fromDegrees(117.35719688175895, 39.11397184232074, 0.0),
+                Cesium.Cartesian3.fromDegrees(117.35604065113867, 39.113971842320716, 0.0),
+            ],
+            material: Cesium.Color.WHITE,
+            height: 0,
+            extrudedHeight: 100
+        },
+
+    });
+
+    //控制是否显示站台
+    document.getElementById('showPlatform').onclick = function (ev) {
+        platform.show = ev.target.checked;
+    };
+
+    //下滑面
+    var polygon = viewer.entities.add({
+        name: '',
+        polygon: {
+            hierarchy: Cesium.Cartesian3.fromDegreesArrayHeights([
+                117.35187570949054, 39.110755598210076, 0.0,
+                117.3567151786471, 39.11225701012212, 0.0,
+                117.46183442116984, 38.95135674996124, 3000.0,
+                117.45130224607502, 38.94741974556811, 3000.0
+            ]),
+            material: Cesium.Color.WHITE,
+            perPositionHeight: true
+        },
+        show:false
+
+    });
+
+    //平行跑道的面
+    var polygon1 = viewer.entities.add({
+        name: '',
+        polygon: {
+            hierarchy: Cesium.Cartesian3.fromDegreesArrayHeights([
+                117.32806516133681, 39.1421949918068, 500.0,
+                117.34131222631802, 39.148850243334934, 500.0,
+                117.37299467655392, 39.09048381938956, 500.0,
+                117.3646388226316, 39.08801901650826, 500.0
+            ]),
+            material: Cesium.Color.RED.withAlpha(0.5),
+            perPositionHeight: true
+        },
+        show:false
+
+    });
+
+    //控制是否显示下滑面
+    document.getElementById('showPolygon').onclick = function (ev) {
+        polygon.show = ev.target.checked;
+    };
+
+
+    //飞机
+    var aircraft1, aircraft2;
+    var aircraftPosition1, aircraftPosition2;
+    var runAircraft1 = false, runAircraft2 = false;
+    document.getElementById('start1').onclick = function () {
+        runAircraft1 = true;
+        runAircraft2 = false;
+
+        polyline1.show = document.getElementById('showLine').checked;
+        polyline2.show = false;
+
+        var start = Cesium.JulianDate.fromDate(new Date());
+        var stop = Cesium.JulianDate.addSeconds(start, 120, new Cesium.JulianDate());
+
+        if (Cesium.defined(aircraft1)) {
+            viewer.entities.remove(aircraft1);
+            aircraft1=undefined;
+        }
+
+        if (Cesium.defined(aircraft2)) {
+            viewer.entities.remove(aircraft2);
+            aircraft2=undefined;
+        }
+
+        /*if(Cesium.defined(aircraft1)){
+            viewer.clock.startTime = start.clone();
+            viewer.clock.stopTime = stop.clone();
+            viewer.clock.currentTime = start.clone();
+            viewer.clock.clockRange = Cesium.ClockRange.CLAMPED ; //Loop at the end
+            viewer.clock.multiplier = 10;
+
+            viewer.clock.shouldAnimate = true;
+            return;
+        }*/
+
+        function computeCirclularFlight1() {
+            var property = new Cesium.SampledPositionProperty();
+
+            var time1 = Cesium.JulianDate.addSeconds(start, 0, new Cesium.JulianDate());
+            var position1 = Cesium.Cartesian3.fromDegrees(118.52430598845172, 37.302516601223694, 5000);
+
+            var time2 = Cesium.JulianDate.addSeconds(start, 40, new Cesium.JulianDate());
+            var position2 = Cesium.Cartesian3.fromDegrees(117.45657763217537, 38.949430228712586, 3000);
+
+            var time3 = Cesium.JulianDate.addSeconds(start, 80, new Cesium.JulianDate());
+            var position3 = Cesium.Cartesian3.fromDegrees(117.35411567142455, 39.11145129984581, 0);
+
+            var time4 = Cesium.JulianDate.addSeconds(start, 120, new Cesium.JulianDate());
+            var position4 = Cesium.Cartesian3.fromDegrees(117.34282447279134, 39.129834377586924, 0);
+
+            property.addSample(time1, position1);
+            property.addSample(time2, position2);
+            property.addSample(time3, position3);
+            property.addSample(time4, position4);
+
+            return property;
+        }
+
+        aircraftPosition1 = computeCirclularFlight1();
+        aircraft1 = viewer.entities.add({
+            availability: new Cesium.TimeIntervalCollection([new Cesium.TimeInterval({
+                start: start,
+                stop: stop
+            })]),
+            position: aircraftPosition1,
+
+            //Automatically compute orientation based on position movement.
+            orientation: new Cesium.VelocityOrientationProperty(aircraftPosition1),
+
+            //Load the Cesium plane model to represent the entity
+            model: {
+                uri: 'Cesium_Air.gltf',
+                minimumPixelSize: 64
+            },
+
+            //Show the path as a pink line sampled in 1 second increments.
+            path: {
+                resolution: 1,
+                material: new Cesium.PolylineGlowMaterialProperty({
+                    glowPower: 0.1,
+                    color: Cesium.Color.YELLOW
+                }),
+                width: 10
+            }
+        });
+
+        viewer.clock.startTime = start.clone();
+        viewer.clock.stopTime = stop.clone();
+        viewer.clock.currentTime = start.clone();
+        viewer.clock.clockRange = Cesium.ClockRange.CLAMPED; //Loop at the end
+        viewer.clock.multiplier = 10;
+
+        viewer.clock.shouldAnimate = true;
+
+        //viewer.trackedEntity = aircraft;
+    };
+
+
+    document.getElementById('start2').onclick = function () {
+        runAircraft2 = true;
+        runAircraft1 = false;
+
+        polyline1.show = false;
+        polyline2.show = document.getElementById('showLine').checked;
+
+        var start = Cesium.JulianDate.fromDate(new Date());
+        var stop = Cesium.JulianDate.addSeconds(start, 120+80+60+30, new Cesium.JulianDate());
+
+        if (Cesium.defined(aircraft1)) {
+            viewer.entities.remove(aircraft1);
+            aircraft1=undefined;
+        }
+        if (Cesium.defined(aircraft2)) {
+            viewer.entities.remove(aircraft2);
+            aircraft2=undefined;
+        }
+
+        /* if(Cesium.defined(aircraft2)){
+             viewer.clock.startTime = start.clone();
+             viewer.clock.stopTime = stop.clone();
+             viewer.clock.currentTime = start.clone();
+             viewer.clock.clockRange = Cesium.ClockRange.CLAMPED ; //Loop at the end
+             viewer.clock.multiplier = 10;
+
+             viewer.clock.shouldAnimate = true;
+             return;
+         }*/
+
+        function computeLinkedLonLatList(p1, p2, p3, p4, n) {
+            var crossPoint = Intersect(p1, p2, p3, p4);
+
+            var d1 = Dis(crossPoint, p2);
+            var d2 = Dis(crossPoint, p3);
+            var p;
+            if (d1 < d2) {
+                p = GetLatLonInSegment(crossPoint, p3, d1);
+            } else {
+                p = GetLatLonInSegment(crossPoint, p2, d2);
+            }
+
+            var circle = CircleFromTangent(p, p3, crossPoint);
+
+            var angle1 = GetAzimuth(circle, p);
+            var angle2 = GetAzimuth(circle, p3);
+
+            var start = Math.min(angle1, angle2);
+            var end = Math.max(angle1, angle2);
+
+            var d = (end - start) / n;
+
+            var arr = [];
+            for (var i = start; i < end; i += d) {
+                var angle = 360 - i + 90;
+                var coordinate = GetCircularlatLon(circle, angle);
+                arr.push(coordinate);
+            }
+
+            return arr;
+        }
+
+        function computeCirclularFlight2() {
+            var property = new Cesium.SampledPositionProperty();
+
+            var time1 = Cesium.JulianDate.addSeconds(start, 0, new Cesium.JulianDate());
+            var position1 = Cesium.Cartesian3.fromDegrees(115.0926274721256, 37.338350128766336, 3000);
+
+            /*var time2 = Cesium.JulianDate.addSeconds(start, 40, new Cesium.JulianDate());
+            var position2 = Cesium.Cartesian3.fromDegrees(117.0968026346476,38.426359004272506,5000);
+
+            var time3 = Cesium.JulianDate.addSeconds(start, 50, new Cesium.JulianDate());
+            var position3 = Cesium.Cartesian3.fromDegrees(117.45657763217537,38.949430228712586,3000);*/
+
+            var time4 = Cesium.JulianDate.addSeconds(start, 120+80+60, new Cesium.JulianDate());
+            var position4 = Cesium.Cartesian3.fromDegrees(117.35411567142455, 39.11145129984581, 0);
+
+            var coordinates = computeLinkedLonLatList({
+                x: 115.0926274721256,
+                y: 37.338350128766336
+            }, {
+                x: 117.0968026346476,
+                y: 38.426359004272506
+            }, {
+                x: 117.45657763217537,
+                y: 38.949430228712586
+            }, {
+                x: 117.35411567142455,
+                y: 39.11145129984581
+            }, 20);
+
+            for (var i = 19; i > 0; i--) {
+                var time = Cesium.JulianDate.addSeconds(start, 120+80 - i*2, new Cesium.JulianDate());
+                var coordinate = coordinates[i];
+                var position = Cesium.Cartesian3.fromDegrees(coordinate.x, coordinate.y, i * 25 + 900);
+                property.addSample(time, position);
+            }
+
+            var time5 = Cesium.JulianDate.addSeconds(start, 120+80+60+30, new Cesium.JulianDate());
+            var position5 = Cesium.Cartesian3.fromDegrees(117.34282447279134, 39.129834377586924, 0);
+
+            property.addSample(time1, position1);
+            /*property.addSample(time2, position2);
+            property.addSample(time3, position3);*/
+            property.addSample(time4, position4);
+            property.addSample(time5, position5);
+
+            return property;
+        }
+
+        aircraftPosition2 = computeCirclularFlight2();
+        aircraft2 = viewer.entities.add({
+            availability: new Cesium.TimeIntervalCollection([new Cesium.TimeInterval({
+                start: start,
+                stop: stop
+            })]),
+            position: aircraftPosition2,
+
+            //Automatically compute orientation based on position movement.
+            orientation: new Cesium.VelocityOrientationProperty(aircraftPosition2),
+
+            //Load the Cesium plane model to represent the entity
+            model: {
+                uri: 'Cesium_Air.gltf',
+                minimumPixelSize: 64
+            },
+
+            //Show the path as a pink line sampled in 1 second increments.
+            path: {
+                resolution: 1,
+                material: new Cesium.PolylineGlowMaterialProperty({
+                    glowPower: 0.1,
+                    color: Cesium.Color.YELLOW
+                }),
+                width: 10
+            }
+        });
+
+        viewer.clock.startTime = start.clone();
+        viewer.clock.stopTime = stop.clone();
+        viewer.clock.currentTime = start.clone();
+        viewer.clock.clockRange = Cesium.ClockRange.CLAMPED; //Loop at the end
+        viewer.clock.multiplier = 10;
+
+        viewer.clock.shouldAnimate = true;
+
+        //viewer.trackedEntity = aircraft;
+    };
+    viewer.clock.onStop.addEventListener(function (clock) {
+        runAircraft1 = false;
+        runAircraft2 = false;
+    });
+
+    //控制是否显示飞机轨迹
+    document.getElementById('showPath').onclick = function (ev) {
+        if(Cesium.defined(aircraft1)){
+            aircraft1.path.show = ev.target.checked;
+        }
+        if(Cesium.defined(aircraft2)){
+            aircraft2.path.show = ev.target.checked;
+        }
+    };
+
+    var polyline1, polyline2;
+    var polylinePositions1 = [], polylinePositions2 = [];
+    polyline1 = viewer.entities.add({
+        polyline: {
+            positions: new Cesium.CallbackProperty(function (time, result) {
+                return polylinePositions1;
+            }, false),
+            width: 1,
+            material: Cesium.Color.BLUEVIOLET
+        },
+        show:false
+    });
+    polyline2 = viewer.entities.add({
+        polyline: {
+            positions: new Cesium.CallbackProperty(function (time, result) {
+                return polylinePositions2;
+            }, false),
+            width: 1,
+            material: Cesium.Color.BLUEVIOLET
+        },
+        show:false
+    });
+
+    document.getElementById('showLine').onclick = function (ev) {
+        polyline1.show = ev.target.checked && runAircraft1;
+        polyline2.show = ev.target.checked && runAircraft2;
+    };
+
+    viewer.zoomTo(satellite);
+
+
+    //底部刻度尺
+    var headingRuleViewModel = {
+        show: false,
+        startValue: undefined,
+        currentValue: 0,
+        sliderPos:25.48/100*578-10,
+        labelPos:300,
+        linePos:289,
+        valueObjs: []
+    };
+    Cesium.knockout.track(headingRuleViewModel, ['show','startValue', 'currentValue', 'valueObjs','sliderPos','labelPos']);
+    Cesium.knockout.getObservable(headingRuleViewModel, 'startValue').subscribe(
+        function (startValue) {
+            headingRuleViewModel.sliderPos=(25.48-startValue)/100*578-10;
+            headingRuleViewModel.valueObjs = [];
+
+            var sValue=parseInt(startValue/5)*5;
+            var dis=startValue-sValue;
+
+            for (var i = 1; i <= 20; i++) {
+                var Obj={
+                    eleWidth:30,
+                    showValue:false,
+                };
+                Obj.value = sValue + i * 5;
+
+                if(Obj.value%10===0){
+                    Obj.showValue=true;
+                }
+
+                if (Obj.value < 10) {
+                    Obj.value = "&nbsp;&nbsp;" + Obj.value;
+                } else if (Obj.value < 100) {
+                    Obj.value = "&nbsp;" + Obj.value;
+                }
+                Cesium.knockout.track(Obj, ['value','eleWidth','showValue']);
+                headingRuleViewModel.valueObjs.push(Obj);
+            }
+
+            if(dis<0){
+                var Obj1={
+                    eleWidth:Math.abs(dis)*30/5,
+                    showValue:false,
+                    value: "&nbsp;&nbsp;" + sValue+dis
+                };
+
+                if(Obj.value%10===0){
+                    Obj.showValue=true;
+                }
+
+                Cesium.knockout.track(Obj1, ['value','eleWidth','showValue']);
+                headingRuleViewModel.valueObjs.splice(0,0,Obj1);
+                headingRuleViewModel.valueObjs.pop();
+
+                var last=headingRuleViewModel.valueObjs[19];
+                last.eleWidth=(5-dis)*30/5;
+            }else if(dis>0){
+                var first=headingRuleViewModel.valueObjs[0];
+                first.eleWidth=dis*30/5;
+                var last=headingRuleViewModel.valueObjs[19];
+                last.eleWidth=(5+dis)*30/5;
+            }
+
+        }
+    );
+    Cesium.knockout.getObservable(headingRuleViewModel, 'currentValue').subscribe(
+        function (currentValue) {
+            var startValue =currentValue-50;
+            if(currentValue==='25.48'){
+                console.log(currentValue);
+            }
+
+            headingRuleViewModel.startValue=startValue;
+        }
+    );
+/*    Cesium.knockout.getObservable(headingRuleViewModel, 'sliderPos').subscribe(
+        function (sliderPos) {
+            var len= headingRuleViewModel.currentValue.toString().length* 92 / 9;
+            if(sliderPos+10+len>578){
+                headingRuleViewModel.labelPos=sliderPos-len;
+            }else {
+                headingRuleViewModel.labelPos=sliderPos+20;
+            }
+        }
+    );*/
+    var headingRule = document.getElementById('heading-rule');
+    Cesium.knockout.applyBindings(headingRuleViewModel, headingRule);
+
+    //左边刻度尺
+    var heightRuleViewModel = {
+        show: false,
+        startValue: undefined,
+        airHeight: 0,
+        slipSurfaceHeight:0,
+        sliderPos:-15,
+        linePos:310,
+        valueObjs: []
+    };
+    Cesium.knockout.track(heightRuleViewModel, ['show','startValue', 'airHeight','slipSurfaceHeight', 'valueObjs','sliderPos','linePos']);
+    Cesium.knockout.getObservable(heightRuleViewModel, 'startValue').subscribe(
+        function (startValue) {
+            heightRuleViewModel.sliderPos=(heightRuleViewModel.slipSurfaceHeight-startValue)/200*620-15;
+            heightRuleViewModel.valueObjs = [];
+
+            var sValue=parseInt(startValue/10)*10;
+            var dis=startValue-sValue;
+
+            for (var i = 20; i >= 1; i--) {
+                var Obj={
+                    eleHeight:31,
+                    showValue:false,
+                };
+                Obj.value = sValue + i * 10;
+
+                if(Obj.value%10===0&&Obj.value/10%2===0){
+                    Obj.showValue=true;
+                }
+
+                if (Obj.value < 10) {
+                    Obj.value = "&nbsp;&nbsp;&nbsp;" + Obj.value;
+                } else if (Obj.value < 100) {
+                    Obj.value = "&nbsp;&nbsp;" + Obj.value;
+                }
+                else if (Obj.value < 100) {
+                    Obj.value = "&nbsp;" + Obj.value;
+                }
+
+
+                Cesium.knockout.track(Obj, ['value','eleHeight','showValue']);
+                heightRuleViewModel.valueObjs.push(Obj);
+            }
+
+            if(dis<0){
+                heightRuleViewModel.valueObjs.splice(0,1);
+
+                var first=heightRuleViewModel.valueObjs[0];
+                first.eleHeight=(10-dis)*31/10;
+
+                var Obj1={
+                    eleHeight:Math.abs(dis)*31/10,
+                    showValue:false,
+                    value: "&nbsp;&nbsp;" + sValue+dis
+                };
+
+                if(Obj.value%10===0&&Obj.value/10%2===0){
+                    Obj.showValue=true;
+                }
+
+                Cesium.knockout.track(Obj1, ['value','eleHeight','showValue']);
+                heightRuleViewModel.valueObjs.push(Obj1);
+            }else if(dis>0){
+                var first=heightRuleViewModel.valueObjs[19];
+                first.eleHeight=(10+dis)*31/10;
+                var last=heightRuleViewModel.valueObjs[0];
+                last.eleHeight=dis*31/10;
+            }
+        }
+    );
+    Cesium.knockout.getObservable(heightRuleViewModel, 'slipSurfaceHeight').subscribe(
+        function (slipSurfaceHeight) {
+            heightRuleViewModel.sliderPos=(slipSurfaceHeight-heightRuleViewModel.startValue)/200*620-15;
+        }
+    );
+    Cesium.knockout.getObservable(heightRuleViewModel, 'airHeight').subscribe(
+        function (airHeight) {
+            var startValue = airHeight-100;
+
+            heightRuleViewModel.sliderPos=(heightRuleViewModel.slipSurfaceHeight-startValue)/200*620-15;
+            heightRuleViewModel.startValue=startValue;
+        }
+    );
+    var heightRule = document.getElementById('height-rule');
+    Cesium.knockout.applyBindings(heightRuleViewModel, heightRule);
+    heightRuleViewModel.airHeight = 10;
+
+
+    viewer.scene.preUpdate.addEventListener(function (scene, time) {
+        if (Cesium.defined(aircraftPosition1)) {
+            var aircraft1Position = aircraftPosition1.getValue(time, new Cesium.Cartesian3());
+            if (!Cesium.defined(aircraft1Position)) {
+                return;
+            }
+
+            polylinePositions1 = [
+                satellite_icon.position.getValue(time, new Cesium.Cartesian3()),
+                aircraft1Position,
+                platform.polyline.positions._value[1].clone()
+            ];
+        }
+        if (Cesium.defined(aircraftPosition2)) {
+            var aircraft2Position = aircraftPosition2.getValue(time, new Cesium.Cartesian3());
+            if (!Cesium.defined(aircraft2Position)) {
+                return;
+            }
+            polylinePositions2 = [
+                satellite_icon.position.getValue(time, new Cesium.Cartesian3()),
+                aircraft2Position,
+                platform.polyline.positions._value[1].clone()
+            ];
+        }
+    });
+
+    viewer.scene.preRender.addEventListener(function (scene, time) {
+        headingRuleViewModel.show=runAircraft1||runAircraft2;
+        heightRuleViewModel.show=runAircraft1||runAircraft2;
+        if (runAircraft1&&Cesium.defined(aircraft1)) {
+            var hpr = Cesium.HeadingPitchRoll.fromQuaternion(aircraft1.orientation.getValue(time));
+
+            // 得到角度
+            var heading = Cesium.Math.toDegrees(hpr.heading).toFixed(0);
+            var pitch = Cesium.Math.toDegrees(hpr.pitch);
+            var roll = Cesium.Math.toDegrees(hpr.roll);
+
+            //调整底部刻度尺数值
+            headingRuleViewModel.currentValue=heading;
+
+            //调整左边刻度尺数值
+            var aircraft1Position = aircraftPosition1.getValue(time, new Cesium.Cartesian3());
+            var cartographic = viewer.scene.globe.ellipsoid.cartesianToCartographic(aircraft1Position);
+            heightRuleViewModel.airHeight = cartographic.height;
+            setSlipSurfaceHeight(cartographic.height);
+        } else if (runAircraft2&&aircraft2) {
+            var hpr = Cesium.HeadingPitchRoll.fromQuaternion(aircraft2.orientation.getValue(time));
+
+            // 得到角度
+            var heading = Cesium.Math.toDegrees(hpr.heading).toFixed(0);
+            var pitch = Cesium.Math.toDegrees(hpr.pitch);
+            var roll = Cesium.Math.toDegrees(hpr.roll);
+
+            //调整底部刻度尺数值
+            headingRuleViewModel.currentValue=heading;
+
+            //调整左边刻度尺数值
+            var aircraft2Position = aircraftPosition2.getValue(time, new Cesium.Cartesian3());
+            var cartographic = viewer.scene.globe.ellipsoid.cartesianToCartographic(aircraft2Position);
+            heightRuleViewModel.airHeight = cartographic.height;
+            setSlipSurfaceHeight(cartographic.height);
+        }
+    });
+
+    function setSlipSurfaceHeight(airHeight) {
+        if(airHeight>3000){
+            heightRuleViewModel.slipSurfaceHeight=3000;
+        }else{
+            var height=airHeight;
+            heightRuleViewModel.slipSurfaceHeight=height;
+        }
+    }
+
+</script>
+</html>

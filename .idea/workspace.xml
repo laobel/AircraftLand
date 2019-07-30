@@ -1,0 +1,318 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="4e05d2e2-6d54-40df-9c7d-ebe28e4afc1f" name="Default Changelist" comment="" />
+    <ignored path="$PROJECT_DIR$/.tmp/" />
+    <ignored path="$PROJECT_DIR$/temp/" />
+    <ignored path="$PROJECT_DIR$/tmp/" />
+    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileEditorManager">
+    <splitter split-orientation="horizontal" split-proportion="0.5508897">
+      <split-first>
+        <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+          <file pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/calculate.js">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="2280">
+                  <caret line="249" selection-start-line="249" selection-end-line="249" />
+                  <folding>
+                    <element signature="n#!!doc;n#Intersect#0" />
+                    <element signature="n#!!block;n#Intersect#0" />
+                    <element signature="e#472#504#0" />
+                    <element signature="e#938#983#0" />
+                    <element signature="n#!!doc;n#CircleFromPoints#0" />
+                    <element signature="n#!!block;n#CircleFromPoints#0" />
+                    <element signature="e#1454#1499#0" />
+                    <element signature="e#1505#2013#0" />
+                    <element signature="n#!!doc;n#Center#0" />
+                    <element signature="n#!!block;n#Center#0" />
+                    <element signature="e#2178#2210#0" />
+                    <element signature="n#!!doc;n#GetlatLon#0" />
+                    <element signature="n#!!block;n#GetlatLon#0" />
+                    <element signature="n#!!doc;n#GetCircularlatLon#0" />
+                    <element signature="n#!!doc;n#GetAzimuth#0" />
+                    <element signature="n#!!doc;n#Rad#0" />
+                    <element signature="n#!!block;n#Rad#0" />
+                  </folding>
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/test.js">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="209">
+                  <caret line="11" column="7" selection-start-line="11" selection-start-column="7" selection-end-line="11" selection-end-column="7" />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file pinned="false" current-in-tab="true">
+            <entry file="file://$PROJECT_DIR$/index.html">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="1957">
+                  <caret line="666" column="72" selection-start-line="666" selection-start-column="72" selection-end-line="666" selection-end-column="72" />
+                  <folding>
+                    <element signature="n#style#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
+                    <element signature="n#div#1;n#body#0;n#html#0;n#!!top" />
+                  </folding>
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/test/test.html">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="684">
+                  <caret line="36" column="6" selection-start-line="36" selection-start-column="6" selection-end-line="36" selection-end-column="6" />
+                </state>
+              </provider>
+            </entry>
+          </file>
+        </leaf>
+      </split-first>
+      <split-second>
+        <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+          <file pinned="false" current-in-tab="true">
+            <entry file="file://$PROJECT_DIR$/index.html">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="7809">
+                  <caret line="910" column="5" selection-start-line="910" selection-start-column="5" selection-end-line="910" selection-end-column="5" />
+                  <folding>
+                    <element signature="n#style#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
+                    <element signature="n#div#1;n#body#0;n#html#0;n#!!top" />
+                  </folding>
+                </state>
+              </provider>
+            </entry>
+          </file>
+        </leaf>
+      </split-second>
+    </splitter>
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="JavaScript File" />
+        <option value="HTML File" />
+      </list>
+    </option>
+  </component>
+  <component name="FindInProjectRecents">
+    <findStrings>
+      <find>aircraft</find>
+      <find>Seg</find>
+      <find>A.</find>
+      <find>B.</find>
+      <find>下滑面</find>
+      <find>aircraft2</find>
+      <find>aircraft1</find>
+      <find>aircraftPosition1</find>
+      <find>aircraftPosition2</find>
+      <find>satellite</find>
+    </findStrings>
+    <replaceStrings>
+      <replace>.x</replace>
+      <replace>.y</replace>
+      <replace>checked</replace>
+      <replace>D.</replace>
+      <replace>C.</replace>
+    </replaceStrings>
+  </component>
+  <component name="IdeDocumentHistory">
+    <option name="CHANGED_PATHS">
+      <list>
+        <option value="$PROJECT_DIR$/AircraftLand/index.html" />
+        <option value="$PROJECT_DIR$/calculate.js" />
+        <option value="$PROJECT_DIR$/test.js" />
+        <option value="$PROJECT_DIR$/test/test.html" />
+        <option value="$PROJECT_DIR$/index.html" />
+      </list>
+    </option>
+  </component>
+  <component name="ProjectFrameBounds" extendedState="6">
+    <option name="x" value="-10" />
+    <option name="y" value="-10" />
+    <option name="width" value="1940" />
+    <option name="height" value="1050" />
+  </component>
+  <component name="ProjectView">
+    <navigator proportions="" version="1">
+      <foldersAlwaysOnTop value="true" />
+    </navigator>
+    <panes>
+      <pane id="Scope" />
+      <pane id="ProjectPane">
+        <subPane>
+          <expand>
+            <path>
+              <item name="AircraftLand" type="b2602c69:ProjectViewProjectNode" />
+              <item name="AircraftLand" type="462c0819:PsiDirectoryNode" />
+            </path>
+          </expand>
+          <select />
+        </subPane>
+      </pane>
+    </panes>
+  </component>
+  <component name="PropertiesComponent">
+    <property name="DefaultHtmlFileTemplate" value="HTML File" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
+    <property name="nodejs_npm_path_reset_for_default_project" value="true" />
+    <property name="settings.editor.selected.configurable" value="configurable.group.appearance" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\develop\Webstrom\AircraftLand" />
+    </key>
+  </component>
+  <component name="RunDashboard">
+    <option name="ruleStates">
+      <list>
+        <RuleState>
+          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
+        </RuleState>
+        <RuleState>
+          <option name="name" value="StatusDashboardGroupingRule" />
+        </RuleState>
+      </list>
+    </option>
+  </component>
+  <component name="SvnConfiguration">
+    <configuration>C:\Users\WLBDEVELOP\AppData\Roaming\Subversion</configuration>
+    <supportedVersion>125</supportedVersion>
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="4e05d2e2-6d54-40df-9c7d-ebe28e4afc1f" name="Default Changelist" comment="" />
+      <created>1558341681591</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1558341681591</updated>
+      <workItem from="1558341683057" duration="3903000" />
+      <workItem from="1558398579541" duration="6816000" />
+      <workItem from="1558420389972" duration="3549000" />
+      <workItem from="1558506962164" duration="9740000" />
+      <workItem from="1558570286889" duration="29897000" />
+      <workItem from="1558658358656" duration="7204000" />
+      <workItem from="1558916721927" duration="14655000" />
+      <workItem from="1559003253984" duration="708000" />
+      <workItem from="1559089051745" duration="2083000" />
+      <workItem from="1559175540516" duration="7489000" />
+      <workItem from="1559261829825" duration="16368000" />
+      <workItem from="1559284454360" duration="8758000" />
+      <workItem from="1559520931607" duration="597000" />
+      <workItem from="1559540012729" duration="240000" />
+      <workItem from="1559693579162" duration="1237000" />
+      <workItem from="1559780878206" duration="599000" />
+      <workItem from="1560126166380" duration="599000" />
+      <workItem from="1560212566895" duration="599000" />
+      <workItem from="1560299429855" duration="599000" />
+      <workItem from="1560385428117" duration="599000" />
+      <workItem from="1560476252398" duration="599000" />
+      <workItem from="1560730572308" duration="21588000" />
+      <workItem from="1560837622962" duration="599000" />
+      <workItem from="1560903814114" duration="599000" />
+      <workItem from="1560989678037" duration="673000" />
+      <workItem from="1561364465038" duration="1322000" />
+      <workItem from="1561423224674" duration="636000" />
+      <workItem from="1561700375041" duration="4039000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TimeTrackingManager">
+    <option name="totallyTimeSpent" value="146294000" />
+  </component>
+  <component name="ToolWindowManager">
+    <frame x="-7" y="-7" width="1550" height="838" extended-state="6" />
+    <layout>
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.071994714" />
+      <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
+      <window_info id="Favorites" order="2" side_tool="true" />
+      <window_info anchor="bottom" id="Message" order="0" />
+      <window_info anchor="bottom" id="Find" order="1" />
+      <window_info anchor="bottom" id="Run" order="2" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
+      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
+      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
+      <window_info anchor="bottom" id="TODO" order="6" />
+      <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Version Control" order="8" />
+      <window_info anchor="bottom" id="Terminal" order="9" />
+      <window_info anchor="bottom" id="Event Log" order="10" side_tool="true" />
+      <window_info anchor="right" id="Commander" order="0" weight="0.4" />
+      <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
+      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
+    </layout>
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="1" />
+  </component>
+  <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/Cesium_Air.gltf">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/AircraftLand/index.html" />
+    <entry file="file://$PROJECT_DIR$/index_黄线会动.html">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/calculate.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2280">
+          <caret line="249" selection-start-line="249" selection-end-line="249" />
+          <folding>
+            <element signature="n#!!doc;n#Intersect#0" />
+            <element signature="n#!!block;n#Intersect#0" />
+            <element signature="e#472#504#0" />
+            <element signature="e#938#983#0" />
+            <element signature="n#!!doc;n#CircleFromPoints#0" />
+            <element signature="n#!!block;n#CircleFromPoints#0" />
+            <element signature="e#1454#1499#0" />
+            <element signature="e#1505#2013#0" />
+            <element signature="n#!!doc;n#Center#0" />
+            <element signature="n#!!block;n#Center#0" />
+            <element signature="e#2178#2210#0" />
+            <element signature="n#!!doc;n#GetlatLon#0" />
+            <element signature="n#!!block;n#GetlatLon#0" />
+            <element signature="n#!!doc;n#GetCircularlatLon#0" />
+            <element signature="n#!!doc;n#GetAzimuth#0" />
+            <element signature="n#!!doc;n#Rad#0" />
+            <element signature="n#!!block;n#Rad#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/test.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="209">
+          <caret line="11" column="7" selection-start-line="11" selection-start-column="7" selection-end-line="11" selection-end-column="7" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/test/test.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="684">
+          <caret line="36" column="6" selection-start-line="36" selection-start-column="6" selection-end-line="36" selection-end-column="6" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/index.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1957">
+          <caret line="666" column="72" selection-start-line="666" selection-start-column="72" selection-end-line="666" selection-end-column="72" />
+          <folding>
+            <element signature="n#style#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#div#1;n#body#0;n#html#0;n#!!top" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+  </component>
+</project>
